@@ -33,6 +33,7 @@ public class MaintenanceMenu {
 
             System.out.print("Bitte Auswahl treffen: ");
             int choice = keyboard.nextInt();
+            keyboard.nextLine();
             switch(choice){
                 case 0:
                     menuReturn = false;
