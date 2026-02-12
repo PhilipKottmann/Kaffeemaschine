@@ -1,31 +1,25 @@
 import java.util.*;
 
 public class CoffeeMachine {
+    private final CoffeeCounterRepository coffeeCounter;
+    private final MainMenu mainMenu;
+    private final MaintenanceMenu maintenanceMenu;
+    private final ErrorHandler errorHandler;
+    private final CoffeeMaker maker;
+    private final Spinner spinner;
+    private final RecipeRepository repo;
 
-    public static void main(String[] args){
+    public CoffeeMachine(CoffeeCounterRepository coffeeCounter, MainMenu mainMenu, MaintenanceMenu maintenanceMenu, ErrorHandler errorHandler, CoffeeMaker maker, Spinner spinner, RecipeRepository recipe){
+        this.coffeeCounter = coffeeCounter;
+        this.mainMenu = mainMenu;
+        this.maintenanceMenu = maintenanceMenu;
+        this.errorHandler = errorHandler;
+        this.maker = maker;
+        this.spinner = spinner;
+        this.repo = recipe;
+    }
 
-        Scanner keyboard = new Scanner(System.in);
-        Spinner spinner = new Spinner();
-        FileCoffeeCounterRepository coffeeCounter = new FileCoffeeCounterRepository("coffeeCounter.txt");
-
-        WaterContainer water = new WaterContainer("Wasserbehälter", 2000);
-        BeanContainer beans = new BeanContainer("Bohnenbehälter", 500);
-        MilkContainer milk = new MilkContainer("Milchbehälter", 400);
-        WasteContainer waste = new WasteContainer("Satzbehälter", 250);
-
-        CoffeeMaker maker = new CoffeeMaker(water, beans, milk, waste);
-
-        // instantiating recipe and sorting it in alphabetical order ascending
-        RecipeRepository repo = new RecipeRepository();
-        List<String> recipeNames = new ArrayList<>(repo.getRecipes().keySet());
-        Collections.sort(recipeNames);
-
-        MainMenu mainMenu = new MainMenu(keyboard, recipeNames);
-
-        MaintenanceMenu maintenanceMenu = new MaintenanceMenu(keyboard, water, beans, milk, waste, maker, spinner, coffeeCounter);
-
-        ErrorHandler errorHandler = new ErrorHandler(keyboard, water, beans, milk, waste, maker);
-
+    public void start(){
         do {
             MainMenuResult menuResult = mainMenu.askUser();
 
