@@ -8,8 +8,9 @@ public class MaintenanceMenu {
     private WasteContainer waste;
     private CoffeeMaker maker;
     private Spinner spinner;
+    private CoffeeCounterRepository counter;
 
-    public MaintenanceMenu(Scanner keyboard, WaterContainer water, BeanContainer beans, MilkContainer milk, WasteContainer waste, CoffeeMaker maker, Spinner spinner) {
+    public MaintenanceMenu(Scanner keyboard, WaterContainer water, BeanContainer beans, MilkContainer milk, WasteContainer waste, CoffeeMaker maker, Spinner spinner, CoffeeCounterRepository coffeeCounter) {
         this.keyboard = keyboard;
         this.water = water;
         this.beans = beans;
@@ -17,6 +18,7 @@ public class MaintenanceMenu {
         this.waste = waste;
         this.maker = maker;
         this.spinner = spinner;
+        this.counter = coffeeCounter;
     }
 
     public void open(){
@@ -30,6 +32,7 @@ public class MaintenanceMenu {
             System.out.println("3: Milch auffüllen");
             System.out.println("4: Satzbehälter leeren");
             System.out.println("5: Füllstände anzeigen");
+            System.out.println("99: Gesamtanzahl Kaffees anzeigen");
 
             System.out.print("Bitte Auswahl treffen: ");
             int choice = keyboard.nextInt();
@@ -63,6 +66,10 @@ public class MaintenanceMenu {
                     System.out.println("Bohnen Füllstand: " + maker.getBeanLevel() + " g");
                     System.out.println("Milch Füllstand: " + maker.getMilkLevel() + " ml");
                     System.out.println("Satzbehälter Füllstand: " + maker.getWasteLevel() + " g");
+                    break;
+                case 99:
+                    System.out.print("Bisher zubereitete Kaffees: " + counter.getCoffeeCount() + " Stk.");
+                    System.out.println();
                     break;
                 default:
                     System.out.println("Fehler im Wartungsmenü");

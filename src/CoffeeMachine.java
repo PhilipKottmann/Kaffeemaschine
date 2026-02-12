@@ -6,6 +6,7 @@ public class CoffeeMachine {
 
         Scanner keyboard = new Scanner(System.in);
         Spinner spinner = new Spinner();
+        FileCoffeeCounterRepository coffeeCounter = new FileCoffeeCounterRepository("coffeeCounter.txt");
 
         WaterContainer water = new WaterContainer("Wasserbehälter", 2000);
         BeanContainer beans = new BeanContainer("Bohnenbehälter", 500);
@@ -14,12 +15,14 @@ public class CoffeeMachine {
 
         CoffeeMaker maker = new CoffeeMaker(water, beans, milk, waste);
 
+        // instantiating recipe and sorting it in alphabetical order ascending
         RecipeRepository repo = new RecipeRepository();
         List<String> recipeNames = new ArrayList<>(repo.getRecipes().keySet());
         Collections.sort(recipeNames);
 
         MainMenu mainMenu = new MainMenu(keyboard, recipeNames);
-        MaintenanceMenu maintenanceMenu = new MaintenanceMenu(keyboard, water, beans, milk, waste, maker, spinner);
+
+        MaintenanceMenu maintenanceMenu = new MaintenanceMenu(keyboard, water, beans, milk, waste, maker, spinner, coffeeCounter);
 
         ErrorHandler errorHandler = new ErrorHandler(keyboard, water, beans, milk, waste, maker);
 
@@ -58,6 +61,7 @@ public class CoffeeMachine {
                     spinner.run(prefix,3);
                     System.out.println("Bitte Getränk entnehmen.");
                     System.out.println();
+                    coffeeCounter.incrementCoffeeCount();
                 }
             }
         } while(true);
